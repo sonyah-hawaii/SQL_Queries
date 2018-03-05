@@ -1,3 +1,4 @@
+--Tables called: Events (user-initiated browser actions) & User data (profile information)
 SELECT DISTINCT a.id, a.number_extensions, b.event_code, b.data1, b.data2,
 CASE
 WHEN b.event_code = 26 THEN SUBSTRING(b.data1,1,(LENGTH(b.data1)-8))
@@ -13,3 +14,41 @@ WHERE b.event_code = 10
 OR b.event_code = 26
 OR b.event_code = 9
 OR b.event_code = 8
+
+--Tables called: Survey responses, transformed using CASE statements & User data
+SELECT a.id, a.fx_version, a.os, 
+
+--how long have you used firefox?
+CASE
+WHEN b.q1 = '0' OR b.q1 = '1' OR b.q1 = '2'
+THEN 'novice'
+WHEN b.q1 = '3' OR b.q1 = '4'
+THEN 'moderate'
+ELSE 'experienced'
+END AS usage_age,
+
+--what is your primary browser?
+CASE
+WHEN b.q4 = '0' OR b.q4 = '1'
+THEN 'loyal'
+ELSE 'not loyal'
+END AS loyalty,
+
+--how old are you?
+CASE
+WHEN b.q6 = '0' OR b.q6 = '1' THEN 'young'
+WHEN b.q6 = '2' OR b.q6 = '3' OR b.q6 = '4' THEN 'mid'
+ELSE 'older'
+END AS age_range,
+--how much time do you spend on web?
+CASE 
+WHEN b.q7 = '0' OR b.q7 = '1' THEN 'low'
+WHEN b.q7 = '2' OR b.q7 = '3' THEN 'moderate'
+ELSE 'high'
+END AS web_usage,
+--self-rated computer skills
+b.q8,
+b.q11
+FROM users a
+INNER JOIN survey b
+ON a.id = b.user_id
