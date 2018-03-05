@@ -1,0 +1,15 @@
+SELECT DISTINCT a.id, a.number_extensions, b.event_code, b.data1, b.data2,
+CASE
+WHEN b.event_code = 26 THEN SUBSTRING(b.data1,1,(LENGTH(b.data1)-8))
+WHEN b.event_code = 26 THEN SUBSTRING(b.data2,1,(LENGTH(b.data2)-5))
+WHEN b.event_code = 8 THEN SUBSTRING(b.data1,1,(LENGTH(b.data1)-16))
+WHEN b.event_code = 8 THEN SUBSTRING(b.data2,1,(LENGTH(b.data2)-8))
+ELSE NULL
+END AS feature_use
+FROM users a 
+INNER JOIN events b
+ON A.ID=B.USER_ID
+WHERE b.event_code = 10
+OR b.event_code = 26
+OR b.event_code = 9
+OR b.event_code = 8
