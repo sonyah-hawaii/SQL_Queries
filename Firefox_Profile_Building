@@ -1,4 +1,10 @@
+/*Queries written to pull data from Firefox Test Pilot
+1 week of data collection includes Survey responses (n = 4,081) User table of information, and Events table of user-initiated web browser actions
+<https://web.archive.org/web/20160304073326/https://testpilot.mozillalabs.com/testcases/a-week-life-2/aggregated-data.html>
+*/
+
 --Tables called: Events (user-initiated browser actions) & User data (profile information)
+
 SELECT DISTINCT a.id, a.number_extensions, b.event_code, b.data1, b.data2,
 CASE
 WHEN b.event_code = 26 THEN SUBSTRING(b.data1,1,(LENGTH(b.data1)-8))
