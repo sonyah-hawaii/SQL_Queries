@@ -2,6 +2,10 @@
 
 SELECT COUNTY, AVG(*) AS SALE_FREQUENCY
 FROM
+/*Queries written to pull information from Iowa Liquor Sales
+<https://data.iowa.gov/Economy/Iowa-Liquor-Sales/m3tr-qhgy.
+*/
+
 (SELECT COUNTY, CATEGORY_NAME, TOTAL,
 CASE WHEN
 	CATEGORY_NAME LIKE '%WHISKIES%' OR CATEGORY_NAME LIKE '%VODKA%' THEN 1
